@@ -1,0 +1,242 @@
+////  Author: Kevin Klein (kevin.klein@gmail.com)
+////  3/18/2022
+////  This is the main SCSS file for the project.
+////  I import Bootstrap 4.6 (downloaded from  here https://getbootstrap.com/docs/4.6/getting-started/download/)
+////  redefine variables for this quick theme
+////  and then build custom styles for the project.
+
+//// redefine variables
+$primary: #2cb0bc;
+$link-color: #1696a3;
+$orange: #f58220;
+$gray-100: #f8f9fa;
+$gray-200: #eee;
+$gray-800: #333;
+
+$text-muted: #656565;
+
+$body-bg: $gray-200;
+$body-color: $gray-800;
+
+$hr-border-color: rgba(#000, 0.2);
+
+// change Bootstrap's default margin to more closely match the PDF comp. we may use a custom margin if this has been codified elsewhere, but for this exercise it's redefined
+$spacers: (
+	4: 1.8rem,
+);
+
+@import "bootstrap/bootstrap";
+@import "font-awesome";
+
+/* 
+ * custom styles 
+ */
+
+// scaffolding
+
+body {
+	display: grid;
+	min-height: 100vh;
+}
+
+.outer-container {
+	background-color: $gray-100;
+	border: 1px solid $gray-400;
+	box-shadow: 0 1px 3px rgba(#000, 0.1);
+	margin: 1rem;
+	@include media-breakpoint-up(md) {
+		margin: 2.5rem;
+	}
+}
+
+// quick utilities
+
+.font-weight-600 {
+	font-weight: 600;
+}
+
+.font-size-sm {
+	@include font-size($font-size-sm);
+}
+
+// helpers
+
+.toast {
+	width: 325px;
+	position: absolute;
+	right: 0;
+	margin-left: auto;
+	margin-top: 1rem;
+	margin-right: 1rem;
+}
+
+// Action Card component. extends Bootstrap 4's native .card.
+// used with an icon, a headline, descriptive graf, then a row of action items (e.g. buttons)
+
+.card-action {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+	@at-root #{&}__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+	}
+	@at-root #{&}__badge {
+		background-color: $orange;
+		border-top-left-radius: 0;
+		border-bottom-right-radius: 0;
+		color: #fff;
+		font-size: 0.85rem;
+		padding: 0.4rem 0.65rem;
+		position: absolute;
+		top: -1px;
+		right: -1px;
+	}
+	@at-root #{&}__icon {
+		background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='58' height='51' viewBox='0 0 58 51'><path d='M55.9 22.3 44.4 2.7C43.4 1 41.7 0 39.8 0h-23c-2 0-3.6 1-4.7 2.7L.7 22.3c-1 1.7-1 3.7 0 5.3l11.4 19.7c1.1 1.7 2.7 2.7 4.7 2.7h22.9c1.9 0 3.6-1 4.6-2.7l11.5-19.7c1.1-1.6 1.1-3.6.1-5.3' style='fill-rule:evenodd;clip-rule:evenodd;fill:%23ddeff1' transform='translate(.691 .5)'/></svg>");
+		background-repeat: no-repeat;
+		color: $primary;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24px;
+		margin: 0 auto 1rem;
+		width: 58px;
+		height: 51px;
+	}
+	@at-root #{&}__headline {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+	@at-root #{&}__description {
+		font-size: 0.9rem;
+		margin-bottom: 1.25rem;
+	}
+	@at-root #{&}__actions {
+		margin-top: auto;
+		text-align: center;
+		// give some margin to consecutive buttons
+		> .btn {
+			margin: 0.2rem 0.2rem;
+		}
+	}
+	@at-root #{&}--hover {
+		// prepare for transition on hover
+		transition: transform 0.25s, box-shadow 0.5s;
+		will-change: transform, box-shadow;
+		// prepare icon for transition on hover
+		.card-action__icon {
+			transition: transform 0.25s;
+			will-change: transform;
+			.fas {
+				transition: transform 0.25s;
+				will-change: transform;
+			}
+		}
+		&:hover {
+			box-shadow: 0 1px 1px rgba(#000, 0.12), 0 2px 2px rgba(#000, 0.1),
+				0 4px 4px rgba(#000, 0.08), 0 8px 8px rgba(#000, 0.06),
+				0 16px 16px rgba(#000, 0.04), 0 32px 32px rgba(#000, 0.02);
+			transform: translate3d(0, -0.25rem, 0);
+			// on hover, scale the hexagon and rotate the icon
+			.card-action__icon {
+				background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='58' height='51' viewBox='0 0 58 51'><path d='M55.9 22.3 44.4 2.7C43.4 1 41.7 0 39.8 0h-23c-2 0-3.6 1-4.7 2.7L.7 22.3c-1 1.7-1 3.7 0 5.3l11.4 19.7c1.1 1.7 2.7 2.7 4.7 2.7h22.9c1.9 0 3.6-1 4.6-2.7l11.5-19.7c1.1-1.6 1.1-3.6.1-5.3' style='fill-rule:evenodd;clip-rule:evenodd;fill:%232cb0bc' transform='translate(.691 .5)'/></svg>");
+				color: #fff;
+				transform: scale(1.15);
+				.fas {
+					transform: rotate(360deg);
+				}
+			}
+		}
+	}
+}
+
+// separate component for this button ultimately for re-use outside of card-action contexts
+.btn-action {
+	// scope the css custom property of the pulse to this button component
+	--pulse-xy: 25px;
+	background: linear-gradient(
+		180deg,
+		#fff 0%,
+		$gray-200 60%,
+		$gray-200 95%,
+		$gray-300 100%
+	);
+	border-color: $gray-200;
+	box-shadow: 0 2px 1px rgba(#000, 0.3);
+	font-size: 0.85rem;
+	font-weight: 500;
+	&:hover {
+		border-color: $gray-500;
+		// box-shadow: 0 1px 0 rgba(#000, 0.4);
+		background: #fff;
+	}
+	&:active {
+		background: linear-gradient(180deg, $gray-300 0%, #fff 100%);
+		border-color: $gray-500;
+		box-shadow: 0 1px 0 rgba(#000, 0.4);
+		transform: translateY(1px);
+	}
+	// hide focus if user is not using keyboard
+	&:focus {
+		box-shadow: 0 0 0 0.2rem rgba($primary, 0.8);
+	}
+	&:focus:not(:focus-visible) {
+		box-shadow: 0 1px 0 rgba(#000, 0.4);
+		outline: none;
+	}
+	// these are styles for optional elements to add icons and interactivity/status states
+	.btn-action__icon {
+		display: none;
+		margin-left: 0.25rem;
+	}
+	.btn-action__icon--end {
+		animation: pulse 1s cubic-bezier(0.4, 0, 0.2, 1);
+		animation-delay: 0.35s;
+		margin-left: 0.5rem;
+		position: relative;
+		// give the succcess icon and border and animate its box shadow to make it pulse a couple times when showing
+		&:after {
+			animation: pulseLoad 0.5s 2 ease 0.35s;
+			border: 1px solid $success;
+			border-image: initial;
+			box-shadow: 0 0 0 0 rgba($primary, 0);
+			content: "";
+			border-radius: 50%;
+			margin: 0 auto;
+			opacity: 1;
+			position: absolute;
+			left: calc(50% - var(--pulse-xy) / 2);
+			top: calc(50% - var(--pulse-xy) / 2);
+			width: var(--pulse-xy);
+			height: var(--pulse-xy);
+			z-index: 0;
+		}
+	}
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes pulseLoad {
+	0% {
+		box-shadow: 0 0 0 0 rgba($success, 0.4);
+	}
+	70% {
+		box-shadow: 0 0 0 10px rgba($success, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba($success, 0);
+	}
+}
