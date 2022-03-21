@@ -10138,16 +10138,21 @@ body {
   font-size: 0.875rem;
 }
 
+.w-40 {
+  width: 40% !important;
+}
+
 .toast {
-  width: 325px;
-  position: absolute;
-  right: 0;
   margin-left: auto;
   margin-top: 1rem;
   margin-right: 1rem;
+  position: absolute;
+  right: 0;
+  width: 325px;
 }
 
 .card-action {
+  border-color: #ced4da;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -10239,19 +10244,19 @@ body {
 .btn-action {
   --pulse-xy: 25px;
   background: linear-gradient(180deg, #fff 0%, #eee 60%, #eee 95%, #dee2e6 100%);
-  border-color: #eee;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+  border-color: #ced4da;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   font-size: 0.85rem;
   font-weight: 500;
 }
 .btn-action:hover {
-  border-color: #adb5bd;
+  border-color: #6c757d;
   background: #fff;
 }
 .btn-action:active {
   background: linear-gradient(180deg, #dee2e6 0%, #fff 100%);
   border-color: #adb5bd;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
   -webkit-transform: translateY(1px);
           transform: translateY(1px);
 }
@@ -10342,5 +10347,16 @@ body {
   }
   100% {
     box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+*::before,
+*::after {
+    -webkit-animation-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+    -webkit-animation-iteration-count: 1 !important;
+            animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

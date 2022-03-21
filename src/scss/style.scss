@@ -1,5 +1,5 @@
 ////  Author: Kevin Klein (kevin.klein@gmail.com)
-////  3/18/2022
+////  3/20/2022
 ////  This is the main SCSS file for the project.
 ////  I import Bootstrap 4.6 (downloaded from  here https://getbootstrap.com/docs/4.6/getting-started/download/)
 ////  redefine variables for this quick theme
@@ -59,21 +59,26 @@ body {
 	@include font-size($font-size-sm);
 }
 
+.w-40 {
+	width: 40% !important;
+}
+
 // helpers
 
 .toast {
-	width: 325px;
-	position: absolute;
-	right: 0;
 	margin-left: auto;
 	margin-top: 1rem;
 	margin-right: 1rem;
+	position: absolute;
+	right: 0;
+	width: 325px;
 }
 
 // Action Card component. extends Bootstrap 4's native .card.
 // used with an icon, a headline, descriptive graf, then a row of action items (e.g. buttons)
 
 .card-action {
+	border-color: $gray-400;
 	display: flex;
 	flex-direction: column;
 	flex: 1;
@@ -164,19 +169,19 @@ body {
 		$gray-200 95%,
 		$gray-300 100%
 	);
-	border-color: $gray-200;
-	box-shadow: 0 2px 1px rgba(#000, 0.3);
+	border-color: $gray-400;
+	box-shadow: 0 1px 0 rgba(#000, 0.3);
 	font-size: 0.85rem;
 	font-weight: 500;
 	&:hover {
-		border-color: $gray-500;
+		border-color: $gray-600;
 		// box-shadow: 0 1px 0 rgba(#000, 0.4);
 		background: #fff;
 	}
 	&:active {
 		background: linear-gradient(180deg, $gray-300 0%, #fff 100%);
 		border-color: $gray-500;
-		box-shadow: 0 1px 0 rgba(#000, 0.4);
+		box-shadow: 0 1px 1px rgba(#000, 0.6);
 		transform: translateY(1px);
 	}
 	// hide focus if user is not using keyboard
@@ -238,5 +243,16 @@ body {
 	}
 	100% {
 		box-shadow: 0 0 0 0 rgba($success, 0);
+	}
+}
+
+// accessibility: resepect system settings  disable animations
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 }
